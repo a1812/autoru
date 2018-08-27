@@ -105,6 +105,7 @@
 
     $('#car_marka_name').change(function () {
         $('#car_model_name').find('option').remove();
+        $('#car_generation_name').find('option').remove();
         let id = $("#car_marka_name").val();
         if (id) {
             drawModelsAndGeneration(id);
