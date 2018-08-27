@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список авто{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <h1>Список машин</h1>
+        <p>
+            <button id="openModalNew">Добавить</button>
+        </p>
+        <table class="w100" border="1" cellspacing="0" cellpadding="5">
+            <tr>
+                <th>Название</th>
+                <th>Марка</th>
+                <th>Модель</th>
+                <th>Поколение</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.name }}</td>
+                    <td>{{ car.marka.name }}</td>
+                    <td>{{ car.model.name }}</td>
+                    <td>{{ car.generation.name }}</td>
+                    <td>
+                        <button class="editCar w100 p5"
+                                data-id="{{ car.id }}"
+                                data-name="{{ car.name }}"
+                                data-marka-id="{{ car.marka.id }}"
+                                data-model-id="{{ car.model.id }}"
+                                data-generation-id="{{ car.generation.id }}"
+                        >edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="delCar w100 p5" data-delete-id="{{ car.id }}" title="Удалить">
+                            <span style="color: #AA3333">x</span>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <h2>Добавить/Изменить</h2>
+            <form name="carAjaxForm" id="carAjaxForm" method="post">
+                <table class="w100" border="0" cellpadding="5">
+                    <tr>
+                        <th>Название</th>
+                        <th>Марка</th>
+                        <th>Модель</th>
+                        <th>Поколение</th>
+                    </tr>
+                    <tr>
+                        <td><input class="w100 " name="name" id="name" type="text" required="required"></td>
+                        <td>
+                            <select class="w100 p5" name="marka_id" id="car_marka_name" required="required">
+                                <option></option>
+                                {% for item in marki %}
+                                    <option value="{{ item.id }}">{{ item.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select class="w100 p5" name="model_id" id="car_model_name" required="required"></select>
+                        </td>
+                        <td>
+                            <select class="w100 p5" name="generation_id" id="car_generation_name"
+                                    required="required"></select>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <button class="p5" type="submit">Сохранить</button>
+                <input type="hidden" name="id" id="car_id" value="0">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'ajax/js.html.twig' %}
+{% endblock %}

@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}AUTORU{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+        <style>
+            .wrapper {
+                margin: 1em auto;
+                max-width: 800px;
+                width: 95%;
+                font: 18px/1.5 sans-serif;
+            }
+
+            .w100 {
+                width: 100%;
+            }
+
+            .p5 {
+                padding: 5px;
+            }
+
+            input {
+                padding: 4px 0px;
+            }
+
+            .delCar, .editCar {
+                cursor: pointer;
+            }
+
+            .modal {
+                max-width: 800px;
+            }
+
+        </style>
+    {% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+{% endblock %}
+</body>
 </html>

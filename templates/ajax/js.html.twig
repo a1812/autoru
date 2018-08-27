@@ -1,0 +1,135 @@
+<script>
+    function drawGeneration(model_id, select_generation = 0) {
+        $("#car_generation_name").find('option').remove();
+        $.ajax({
+            url: "{{ path('getGeneration') }}",
+            type: "POST",
+            data: $.param({'model_id': model_id}),
+            success: function (data, textStatus, jqXHR) {
+                $.each(data, function (key, value) {
+                    $('#car_generation_name')
+                        .append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                });
+                if (select_generation) {
+                    $("#car_generation_name").val(select_generation);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error');
+            }
+        });
+    }
+
+    function drawModelsAndGeneration(id, select_model = 0, select_generation = 0) {
+        $('#car_model_name').find('option').remove();
+        $("#car_generation_name").find('option').remove();
+        $.ajax({
+            url: "{{ path('getModelsAndGeneration') }}",
+            type: "POST",
+            data: $.param({'marka_id': id}),
+            success: function (data, textStatus, jqXHR) {
+                $.each(data.models, function (key, value) {
+                    if (key === 0 && data.generation && select_generation === 0) {
+                        $.each(data.generation, function (keyGen, valueGen) {
+                            $('#car_generation_name')
+                                .append($("<option></option>")
+                                    .attr("value", valueGen.id)
+                                    .text(valueGen.name));
+                        });
+                        if (select_generation) {
+                            $("#car_generation_name").val(select_generation);
+                        }
+                    }
+                    $('#car_model_name')
+                        .append($("<option></option>")
+                            .attr("value", value.id)
+                            .text(value.name));
+                });
+                if (select_model) {
+                    $("#car_model_name").val(select_model);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error');
+            }
+        });
+    }
+
+    $('#openModalNew').click(function () {
+        $("#name").val('');
+        $("#car_id").val('0');
+        $("#car_marka_name").val([]);
+        $('#car_model_name').find('option').remove();
+        $("#car_generation_name").find('option').remove();
+        $("#modal").modal({open: true});
+    });
+
+
+    $('#carAjaxForm').submit(function () {
+        let path = "{{ path('carUpdate') }}";
+
+        if ('0' === $("#car_id").val()) {
+            path = "{{ path('carNew') }}";
+        }
+        $.ajax({
+            url: path,
+            type: "POST",
+            data: $('#carAjaxForm').serialize(),
+            success: function (data, textStatus, jqXHR) {
+                data === 'OK' ? location.reload() : console.log('ERR');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error');
+            }
+        });
+
+        return false;
+    });
+
+    $('.editCar').click(function () {
+        $("#car_id").val($(this).data('id')); // for edit
+        let marka_id = $(this).data('marka-id');
+        let model_id = $(this).data('model-id');
+        let generation_id = $(this).data('generation-id');
+
+        $("#name").val($(this).data('name'));
+        $("#car_marka_name").val(marka_id);
+
+        drawModelsAndGeneration(marka_id, model_id, generation_id);
+        drawGeneration(model_id, generation_id);
+
+        $("#modal").modal({open: true});
+    });
+
+    $('#car_marka_name').change(function () {
+        $('#car_model_name').find('option').remove();
+        let id = $("#car_marka_name").val();
+        if (id) {
+            drawModelsAndGeneration(id);
+        }
+    });
+
+    $('#car_model_name').change(function () {
+        let id = $("#car_model_name").val();
+        if (id) {
+            drawGeneration(id, 0 );
+        }
+    });
+
+    $('.delCar').click(function () {
+        let id = $(this).data('delete-id');
+        $.ajax({
+            url: "{{ path('carDelete') }}",
+            type: "POST",
+            data: $.param({'id': id}),
+            success: function (data, textStatus, jqXHR) {
+                data === 'OK' ? location.reload() : console.log('ERR');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error');
+            }
+        });
+    });
+</script>
