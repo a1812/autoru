@@ -1,12 +1,17 @@
 **DEMO AUTORU**
-==========
+===============
+
+Requirements
+------------
+* PHP 7.1.3 or higher;
+* PDO-SQLite PHP extension enabled;
+
 
 Install:
-
- - clone
- - configure MySQL access (mysql://autoru:7ZcYAJq36YbMJLtL@127.0.0.1:3306/autoru)
- - import 'bd_autoru.sql' in MySQL (mysql -u autoru -p7ZcYAJq36YbMJLtL -B autoru < bd_autoru.sql)  
-  - composer install
- - bin/console server:run
- - open http://127.0.0.1:8000/
- 
+--------
+```bash
+$ git clone https://github.com/a1812/autoru.git
+$ composer install
+$ symfony serve
+```
+open http://127.0.0.1:8000/
