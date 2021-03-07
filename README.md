@@ -1,5 +1,5 @@
-**DEMO AUTORU**
-===============
+This is a simple application for migrating from DEPRECATED version to the latest LTS Symfony - as an example
+============
 
 Requirements
 ------------
